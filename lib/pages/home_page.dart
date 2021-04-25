@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   ScrollController _scrollController = ScrollController();
   int page = 1;
   bool isLoading = false;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -28,7 +29,6 @@ class _HomePageState extends State<HomePage> {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent) {
         if (!isLoading) {
-          print('page scroll: ' + page.toString());
           getCharactersList(page);
         }
       }
@@ -76,41 +76,49 @@ class _HomePageState extends State<HomePage> {
   Widget _buildCharacterList(
       BuildContext context, List<Character> characterList) {
     return Center(
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 20),
-        child: ListView.builder(
-          itemCount: _characterList.length,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == _characterList.length) {
+      child: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: () async {
+          _characterList = <Character>[];
+          page = 1;
+          await getCharactersList(page);
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          child: ListView.builder(
+            itemCount: _characterList.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (index == _characterList.length) {
+                return Center(
+                  child: Opacity(
+                    opacity: isLoading ? 1 : 0,
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
               return Center(
-                child: Opacity(
-                  opacity: isLoading ? 1 : 0,
-                  child: CircularProgressIndicator(),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                DetailPage.routeName,
+                                arguments: DetailArguments(
+                                  character: _characterList[index],
+                                ),
+                              );
+                            },
+                            child:
+                              ItemCharacter(character: _characterList[index]))),
+                  ],
                 ),
               );
-            }
-            return Center(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              DetailPage.routeName,
-                              arguments: DetailArguments(
-                                character: _characterList[index],
-                              ),
-                            );
-                          },
-                          child:
-                            ItemCharacter(character: _characterList[index]))),
-                ],
-              ),
-            );
-          },
+            },
+          ),
         ),
       ),
     );
