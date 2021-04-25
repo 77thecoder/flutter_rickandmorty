@@ -36,26 +36,31 @@ class DetailPage extends StatelessWidget {
               color: AppTheme.white,
               imageUrl: args.character.image,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleContainer(
-                  width: 10,
-                  height: 10,
-                  color: AppTheme.white,
-                  backgroundColor: AppTheme.statusGreen,
+                Hero(
+                  tag: args.character.id,
+                  child: CircleContainer(
+                    width: 10,
+                    height: 10,
+                    color: AppTheme.white,
+                    backgroundColor: args.character.status == 'Alive'
+                        ? AppTheme.statusGreen
+                        : AppTheme.statusRed,
+                  ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Text(
-                  'Alive - ' + args.character.species,
+                  args.character.status + ' - ' + args.character.species,
                   style: AppTheme.characterLabel.copyWith(
                     color: AppTheme.white.withOpacity(0.5),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _buildInfo(args),
           ],
         ));
@@ -72,9 +77,9 @@ class DetailPage extends StatelessWidget {
           ),
         ),
         Text(args.character.origin.name, style: AppTheme.characterName),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Divider(color: AppTheme.divider),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           'Gender',
           style: AppTheme.characterLabel.copyWith(
@@ -82,9 +87,12 @@ class DetailPage extends StatelessWidget {
           ),
         ),
         Text(args.character.gender, style: AppTheme.characterName),
-        SizedBox(height: 10),
-        Divider(color: AppTheme.divider, height: 2,),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
+        Divider(
+          color: AppTheme.divider,
+          height: 2,
+        ),
+        const SizedBox(height: 10),
         Text(
           'Location',
           style: AppTheme.characterLabel.copyWith(

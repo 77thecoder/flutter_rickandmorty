@@ -9,6 +9,7 @@ class AppTheme {
   static const Color card = Color(0xFF3C3E44);
   static const Color white = Color(0xFFFFFFFF);
   static const Color statusGreen = Color(0xFF00C48C);
+  static const Color statusRed = Color(0xFFC40000);
   static const Color divider = Color(0xFF3A3D44);
 
   static const TextStyle appBarTitle = TextStyle( // h4 -> display1
