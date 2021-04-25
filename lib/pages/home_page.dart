@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/core/network/rest_api_service.dart';
 import 'package:rickandmorty/models/character.dart';
+import 'package:rickandmorty/pages/detail_page.dart';
 import 'package:rickandmorty/themes/app_theme.dart';
 import 'package:rickandmorty/widgets/item_character.dart';
 
@@ -92,9 +93,20 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                    child: ItemCharacter(character: _characterList[index])
-                  ),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              DetailPage.routeName,
+                              arguments: DetailArguments(
+                                character: _characterList[index],
+                              ),
+                            );
+                          },
+                          child:
+                            ItemCharacter(character: _characterList[index]))),
                 ],
               ),
             );

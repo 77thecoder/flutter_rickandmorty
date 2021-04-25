@@ -5,10 +5,11 @@ class AppTheme {
 
   static const String fontName = 'SF UI Display';
 
-  static const Color background = Color(0xFF919397);
+  static const Color background = Color(0xFF23272E);
   static const Color card = Color(0xFF3C3E44);
   static const Color white = Color(0xFFFFFFFF);
   static const Color statusGreen = Color(0xFF00C48C);
+  static const Color divider = Color(0xFF3A3D44);
 
   static const TextStyle appBarTitle = TextStyle( // h4 -> display1
     fontFamily: fontName,
